@@ -15,7 +15,7 @@ vendas_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/fVendas
 
 app = FastAPI()
 
-@app.get("/", status_code=200, response_class=funcs.PrettyJSONResponse)
+@app.get("/", status_code=200)
 async def read_root():
     return {"message": "Hello World"}
 
