@@ -3,7 +3,8 @@
 from fastapi import FastAPI
 import uvicorn
 import pandas as pd
-import json
+import json, typing
+from starlette.responses import Response
 import funcoes as funcs
 
 # URLs
@@ -14,18 +15,18 @@ vendas_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/fVendas
 
 app = FastAPI()
 
-@app.get("/", status_code=200)
+@app.get("/", status_code=200, response_class=funcs.PrettyJSONResponse)
 async def read_root():
     return {"message": "Hello World"}
 
 
-@app.get("/estoque", status_code=200)
+@app.get("/estoque", status_code=200, response_class=funcs.PrettyJSONResponse)
 async def get_estoque():
     df = funcs.get_csv_estoque(estoque_url)
     return df
 
 
-@app.get("/estoque/{item_id}", status_code=200)
+@app.get("/estoque/{item_id}", status_code=200, response_class=funcs.PrettyJSONResponse)
 async def read_item(item_id):
     df = funcs.get_csv_estoque_id(estoque_url)
     df = df.loc[df['Cod__Prod'] == item_id]
