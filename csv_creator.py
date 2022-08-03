@@ -69,6 +69,7 @@ def sqlToDataframe(query):
     read_sql = pd.read_sql(query, conn)
     df = pd.DataFrame(read_sql)
     df = df.astype(str)
+    df.to_csv('outputs/clientes.csv', index=False, sep=';')
     
     return df
 
