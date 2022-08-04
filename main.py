@@ -10,7 +10,7 @@ import funcoes as funcs
 # URLs
 estoque_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/fEstoque.csv"
 produtos_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/dProdutos.csv"
-clientes_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/dClientes.csv"
+clientes_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/clientes.csv"
 vendas_url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/fVendas.csv"
 
 app = FastAPI()

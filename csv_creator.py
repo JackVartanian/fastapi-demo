@@ -1,6 +1,8 @@
 import pymssql
 import pandas as pd
 from ftplib import FTP
+import requests
+from io import StringIO
 from warnings import simplefilter
 simplefilter(action='ignore', category=FutureWarning)
 simplefilter(action='ignore', category=Warning)
@@ -74,7 +76,6 @@ def sqlToDataframe(query):
     return df
 
 # Criar conexão com o SFTP
-
 def push_file_to_server():
 
     # Usuario e senha para conexão com o SFTP
@@ -101,25 +102,14 @@ def push_file_to_server():
 
         ftp.quit()
 
-def grabFile():
+# Ler arquivo CSV
+def grabFile(file):
 
-    # Usuario e senha para conexão com o SFTP
-    host = "ftp.jvphotos.com.br"
-    user = "etl@jvphotos.com.br"
-    passw = 'etl@2022@'
-
-    # connect to the FTP server
-    ftp = FTP("ftp.jvphotos.com.br")
-    ftp.login("etl@jvphotos.com.br", "etl@2022@")
-
-    print("Connection succesfully stablished ... ")
-
-    filename = 'clientes.csv'
-
-    localfile = open(filename, 'wb')
-    df = ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
-
-    ftp.quit()
-    localfile.close()
+    url = "https://jvphotos.com.br/public_html/wp-content/uploads/ETL/" + file + ".csv"
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0"}
+    response = requests.get(url, headers=headers)
+    csv_data = response.text
+    csv_data = StringIO(csv_data)
+    df = pd.read_csv(csv_data, sep=';', encoding='utf-8')
 
     return df
