@@ -100,3 +100,26 @@ def push_file_to_server():
         print("File uploaded successfully ... ")
 
         ftp.quit()
+
+def grabFile():
+
+    # Usuario e senha para conexão com o SFTP
+    host = "ftp.jvphotos.com.br"
+    user = "etl@jvphotos.com.br"
+    passw = 'etl@2022@'
+
+    # connect to the FTP server
+    ftp = FTP("ftp.jvphotos.com.br")
+    ftp.login("etl@jvphotos.com.br", "etl@2022@")
+
+    print("Connection succesfully stablished ... ")
+
+    filename = 'clientes.csv'
+
+    localfile = open(filename, 'wb')
+    df = ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
+
+    ftp.quit()
+    localfile.close()
+
+    return df
